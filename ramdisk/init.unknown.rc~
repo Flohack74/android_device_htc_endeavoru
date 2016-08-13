@@ -39,14 +39,6 @@ on fs
     chown system system /sys/module/input_cfboost/parameters/boost_time
     chown system system /sys/devices/platform/tegra-i2c.1/i2c-1/1-0036/lm3533_bl_hvled
 
-    # Interactive powerHAL permissions
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/go_maxspeed_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/cores_states
-    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/cores_states
-
 on post-fs-data
     # GPS
     mkdir /data/tigps 0770 system system

@@ -38,12 +38,15 @@
 #define BOOST_PATH "/sys/module/input_cfboost/parameters/"
 #define CPUQUIET_PATH "/sys/devices/system/cpu/cpuquiet/balanced/"
 #define BACKLIGHT_PATH "/sys/devices/platform/tegra-i2c.1/i2c-1/1-0036/"
+#define MULTICORE_PM_PATH "/sys/devices/system/cpu/"
 
 static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 static int boostpulse_fd = -1;
+static int boostcpus_fd = -1;
 
 static int current_power_profile = -1;
 static int requested_power_profile = -1;
+static bool init_done = false;
 
 static int sysfs_write_str(char *path, char *s)
 {
@@ -108,46 +111,30 @@ static int boostpulse_open()
     return boostpulse_fd;
 }
 
-static void power_set_interactive(__attribute__((unused)) struct power_module *module, int on)
+static int boostcpus_open()
 {
-    if (!is_profile_valid(current_power_profile)) {
-        ALOGD("%s: no power profile selected yet", __func__);
-        return;
+    pthread_mutex_lock(&lock);
+    if (boostcpus_fd < 0) {
+        boostcpus_fd = open(BOOST_PATH "boost_cpus", O_WRONLY);
     }
+    pthread_mutex_unlock(&lock);
 
-    // break out early if governor is not interactive
-    if (!check_governor()) return;
-
-    if (on) {
-        sysfs_write_int(INTERACTIVE_PATH "go_maxspeed_load",
-                        profiles[current_power_profile].go_maxspeed_load);
-        sysfs_write_int(INTERACTIVE_PATH "timer_rate",
-                        profiles[current_power_profile].timer_rate);
-    } else {
-        sysfs_write_int(INTERACTIVE_PATH "go_maxspeed_load",
-                        profiles[current_power_profile].go_maxspeed_load_off);
-        sysfs_write_int(INTERACTIVE_PATH "timer_rate",
-                        profiles[current_power_profile].timer_rate_off);
-    }
+    return boostcpus_fd;
 }
 
-static void set_power_profile(int profile)
+static void apply_power_profile(int profile)
 {
     if (!is_profile_valid(profile)) {
         ALOGE("%s: unknown profile: %d", __func__, profile);
         return;
     }
 
-    // break out early if governor is not interactive
-    if (!check_governor()) return;
-
-    if (profile == current_power_profile)
-        return;
-
     ALOGD("%s: setting profile %d", __func__, profile);
 
     sysfs_write_int(BOOST_PATH "boost_freq",
                     profiles[profile].boost_freq);
+    sysfs_write_int(BOOST_PATH "boost_cpus",
+                    profiles[profile].boost_cpus);
     sysfs_write_int(BOOST_PATH "boost_time",
                     profiles[profile].boost_time);
     sysfs_write_int(INTERACTIVE_PATH "go_maxspeed_load",
@@ -166,8 +153,56 @@ static void set_power_profile(int profile)
                     profiles[profile].down_delay);
     sysfs_write_int(BACKLIGHT_PATH "lm3533_bl_hvled",
                     profiles[profile].lm3533_bl_hvled);
+    sysfs_write_int(MULTICORE_PM_PATH "sched_mc_power_savings",
+                    profiles[profile].sched_mc_power_savings);
 
     current_power_profile = profile;
+}
+
+static void set_power_profile(int profile)
+{
+    if (profile == current_power_profile)
+        return;
+
+    // break out early if governor is not interactive
+    if (!check_governor())
+        return;
+
+    apply_power_profile(profile);
+}
+
+static void power_set_interactive(__attribute__((unused)) struct power_module *module, int on)
+{
+    //Apply profile on first set interactive. init is to early.
+    if (!init_done) {
+        if (check_governor()) {
+            if (!is_profile_valid(current_power_profile))
+                current_power_profile = 1;
+            apply_power_profile(current_power_profile);
+            init_done = true;
+        }
+    }
+
+    if (!is_profile_valid(current_power_profile)) {
+        ALOGD("%s: no power profile selected yet", __func__);
+        return;
+    }
+
+    // break out early if governor is not interactive
+    if (!check_governor())
+        return;
+
+    if (on) {
+        sysfs_write_int(INTERACTIVE_PATH "go_maxspeed_load",
+                        profiles[current_power_profile].go_maxspeed_load);
+        sysfs_write_int(INTERACTIVE_PATH "timer_rate",
+                        profiles[current_power_profile].timer_rate);
+    } else {
+        sysfs_write_int(INTERACTIVE_PATH "go_maxspeed_load",
+                        profiles[current_power_profile].go_maxspeed_load_off);
+        sysfs_write_int(INTERACTIVE_PATH "timer_rate",
+                        profiles[current_power_profile].timer_rate_off);
+    }
 }
 
 static void power_hint(__attribute__((unused)) struct power_module *module,
@@ -178,17 +213,37 @@ static void power_hint(__attribute__((unused)) struct power_module *module,
 
     switch (hint) {
     case POWER_HINT_LAUNCH_BOOST:
+        if (!is_profile_valid(current_power_profile)) {
+            ALOGD("%s: no power profile selected yet", __func__);
+            return;
+        }
+
+        if (!profiles[current_power_profile].boost_cpus)
+            return;
+
+        if (boostcpus_open() >= 0) {
+            snprintf(buf, sizeof(buf), "%d", 
+                (profiles[current_power_profile].boost_cpus));
+            len = write(boostcpus_fd, &buf, sizeof(buf));
+            if (len < 0) {
+                strerror_r(errno, buf, sizeof(buf));
+                ALOGE("Error writing to boostcpus: %s\n", buf);
+
+                pthread_mutex_lock(&lock);
+                close(boostcpus_fd);
+                boostcpus_fd = -1;
+                pthread_mutex_unlock(&lock);
+            }
+        }
+    case POWER_HINT_INTERACTION:
     case POWER_HINT_CPU_BOOST:
         if (!is_profile_valid(current_power_profile)) {
             ALOGD("%s: no power profile selected yet", __func__);
             return;
         }
 
-        if (!profiles[current_power_profile].boost_time)
+        if (!profiles[current_power_profile].boost_freq)
             return;
-
-        // break out early if governor is not interactive
-        if (!check_governor()) return;
 
         if (boostpulse_open() >= 0) {
             snprintf(buf, sizeof(buf), "%d", 
@@ -247,4 +302,3 @@ struct power_module HAL_MODULE_INFO_SYM = {
     .powerHint = power_hint,
     .getFeature = get_feature
 };
- 
