@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-import init.endeavoru.usb.rc
+import init.unknown.usb.rc
 import init.tegra3-common.rc
 
 on early-init
@@ -30,6 +30,14 @@ on init
      export LD_SHIM_LIBS /vendor/lib/hw/hwcomposer.tegra_v0.so|libkaicompat.so:/vendor/lib/hw/camera.tegra.so|libkaicompat.so:/vendor/lib/hw/audio_policy.vendor.tegra.so|libkaicompat.so:/system/lib/libnvcap_video.so|libkaicompat.so:/system/lib/libnvwinsys.so|libkaicompat.so:/vendor/lib/libwvm.so|libkaicompat.so:/system/lib/hw/sensors.tegra.so|libkaicompat.so
 on fs
     mount_all /fstab.endeavoru
+
+    chown system system /sys/devices/system/cpu/cpuquiet/balanced/core_bias
+    chown system system /sys/devices/system/cpu/cpuquiet/balanced/balance_level
+    chown system system /sys/devices/system/cpu/cpuquiet/balanced/down_delay
+    chown system system /sys/devices/system/cpu/cpuquiet/balanced/up_delay
+    chown system system /sys/module/input_cfboost/parameters/boost_freq
+    chown system system /sys/module/input_cfboost/parameters/boost_time
+    chown system system /sys/devices/platform/tegra-i2c.1/i2c-1/1-0036/lm3533_bl_hvled
 
 on post-fs-data
     # GPS

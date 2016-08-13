@@ -144,6 +144,8 @@ WIFI_MODULES:
 
 TARGET_KERNEL_MODULES := WIFI_MODULES
 
+PRODUCT_PACKAGES += \
+	power.tegra
 # Avoid the generation of ldrcc instructions
 NEED_WORKAROUND_CORTEX_A9_745320 := true
 
