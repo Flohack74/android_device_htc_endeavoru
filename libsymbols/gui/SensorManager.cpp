@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2010 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@
 #include <gui/ISensorServer.h>
 #include <gui/ISensorEventConnection.h>
 #include "gui/Sensor.h"
-#include "SensorManager.h"
+#include "gui/SensorManager.h"
 #include <gui/SensorEventQueue.h>
 
 // ----------------------------------------------------------------------------
@@ -62,26 +62,29 @@ void SensorManager::sensorManagerDied()
 }
 
 status_t SensorManager::assertStateLocked() const {
+    bool initSensorManager = false;
     if (mSensorServer == NULL) {
-        // try for one second
-        const String16 name("sensorservice");
-        status_t err = NO_ERROR;
-
-        for (int i=0 ; i<4 ; i++) {
-            if (i > 0) {
-	        ALOGE("Waiting....");
-                // Don't sleep on the first try or after the last failed try
-                usleep(250000);
-            }
-            err = getService(name, &mSensorServer);
-            if (err != NAME_NOT_FOUND) {
-                ALOGE ("We bail out");
-                break;
-            }
-        }
-
+        initSensorManager = true;
+    } else {
+        // Ping binder to check if sensorservice is alive.
+        status_t err = IInterface::asBinder(mSensorServer)->pingBinder();
         if (err != NO_ERROR) {
-            return err;
+            initSensorManager = true;
+        }
+    }
+    if (initSensorManager) {
+        // try for 300 seconds (60*5(getService() tries for 5 seconds)) before giving up ...
+        const String16 name("sensorservice");
+        for (int i = 0; i < 60; i++) {
+            status_t err = getService(name, &mSensorServer);
+            if (err == NAME_NOT_FOUND) {
+                sleep(1);
+                continue;
+            }
+            if (err != NO_ERROR) {
+                return err;
+            }
+            break;
         }
 
         class DeathObserver : public IBinder::DeathRecipient {
@@ -99,7 +102,8 @@ status_t SensorManager::assertStateLocked() const {
 
         mSensors = mSensorServer->getSensorList(gPackageName);
         size_t count = mSensors.size();
-        mSensorList = (Sensor const**)malloc(count * sizeof(Sensor*));
+        mSensorList =
+                static_cast<Sensor const**>(malloc(count * sizeof(Sensor*)));
         for (size_t i=0 ; i<count ; i++) {
             mSensorList[i] = mSensors.array() + i;
         }

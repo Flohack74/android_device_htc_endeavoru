@@ -19,16 +19,16 @@ import init.tegra3-common.rc
 
 on early-init
    setenforce 0
-export LD_SHIM_LIBS /vendor/lib/hw/hwcomposer.tegra_v0.so|libkaicompat.so:/vendor/lib/hw/camera.tegra.so|libkaicompat.so:/vendor/lib/hw/audio_policy.vendor.tegra.so|libkaicompat.so:/system/lib/libnvcap_video.so|libkaicompat.so:/system/lib/libnvwinsys.so|libkaicompat.so:/vendor/lib/libwvm.so|libkaicompat.so:/system/lib/hw/sensors.tegra.so|libkaicompat.so
-
 
 on init
-
+	setenforce 0
     # Our old /data partition
     mkdir /xtradata
 
-     export LD_SHIM_LIBS /vendor/lib/hw/hwcomposer.tegra_v0.so|libkaicompat.so:/vendor/lib/hw/camera.tegra.so|libkaicompat.so:/vendor/lib/hw/audio_policy.vendor.tegra.so|libkaicompat.so:/system/lib/libnvcap_video.so|libkaicompat.so:/system/lib/libnvwinsys.so|libkaicompat.so:/vendor/lib/libwvm.so|libkaicompat.so:/system/lib/hw/sensors.tegra.so|libkaicompat.so
+     # Shim load misc old symbols
+    export LD_SHIM_LIBS /system/lib/libril.so|libx3_ril.so:/system/lib/lge-ril.so|libx3_ril.so:/system/lib/hw/camera.tegra.so|libx3_cam.so:/system/vendor/lib/libwvm.so|libx3_cam.so
 on fs
+	setenforce 0
     mount_all /fstab.endeavoru
 
     chown system system /sys/devices/system/cpu/cpuquiet/balanced/core_bias
@@ -48,6 +48,7 @@ on fs
     chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/cores_states
 
 on post-fs-data
+	setenforce 0
     # GPS
     mkdir /data/tigps 0770 system system
     mkdir /data/tigps/aiding 0770 system system
@@ -61,6 +62,7 @@ on post-fs-data
     symlink /dev/ttyACM3 /dev/log_modem
 
 on boot
+	setenforce 0
     # Wi-Fi
     insmod /system/lib/modules/compat.ko
     insmod /system/lib/modules/cfg80211.ko
@@ -150,7 +152,6 @@ service hostapd_bin /system/bin/hostapd -d /data/misc/wifi/hostapd.conf
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
-    oneshot
 
 service uim /system/bin/uim-sysfs
     class core
@@ -202,3 +203,49 @@ service load_bt /system/bin/logwrapper /system/bin/load-bt.sh
     user root
     group root
     oneshot
+
+
+on property:init.svc.bootanim=stopped
+    # Assign TCP buffer thresholds to be ceiling value of technology maximums
+    # Increased technology maximums should be reflected here.
+    write /proc/sys/net/core/rmem_max 2097152
+    write /proc/sys/net/core/wmem_max 2097152
+
+    # KSM off by default
+    write /sys/kernel/mm/ksm/run 0
+
+    # Power management settings (Kernel uses performance governor at boot, so add this late)
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor interactive
+    write /sys/module/cpu_tegra/parameters/force_policy_max Y
+    write /sys/module/cpuidle/parameters/lp2_in_idle 1
+
+    # Interactive powerHAL permissions
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/go_maxspeed_load
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/cores_states
+    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/cores_states
+
+    # Allow Overclock via scaling_max_freq
+    write /sys/module/cpu_tegra/parameters/cpu_user_cap 1700000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1500000
+
+    # Interactive dynamic frequecy mode settings
+    write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
+    write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 85
+    write /sys/devices/system/cpu/cpufreq/interactive/dynamic_freq_mode 1
+
+on property:dev.bootcomplete=1
+    # Net: Disable the IPv6 rmnet interfaces
+    write /proc/sys/net/ipv6/conf/rmnet0/disable_ipv6 1
+    write /proc/sys/net/ipv6/conf/rmnet1/disable_ipv6 1
+
+    write /sys/devices/platform/tegra-i2c.0/i2c-0/0-0039/run_calibration 1
+    write /sys/block/mmcblk0/queue/scheduler fiops
+
+    # Start cpuquiet
+    write /sys/kernel/debug/tegra_hotplug/min_cpus 0
