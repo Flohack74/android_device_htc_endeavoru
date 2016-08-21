@@ -37,7 +37,9 @@ PRODUCT_PACKAGES += \
     libEGL_tegra_impl \
     libGLESv1_CM_tegra \
     libGLESv2_tegra \
-    libboringssl-compat\
+    endeavoru_ril \
+    endeavoru_misc_cpp \
+    endeavoru_cam
     
 
 # Libstlport needed by lib/libnvcap.so
