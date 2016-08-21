@@ -51,10 +51,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/nfcee_access.xml:system/etc/nfcee_access.xml
 
-#temp-workaround 
-PRODUCT_COPY_FILES += \
-	device/htc/endeavoru/health/health_board_cm.cpp:vendor/cm/charger/health_board_cm.cpp
-
 # Other extra packages
 PRODUCT_PACKAGES += \
     librs_jni
