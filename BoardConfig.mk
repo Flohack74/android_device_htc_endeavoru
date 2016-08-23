@@ -195,5 +195,5 @@ HAVE_SELINUX := true
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/htc/endeavoru
- BOARD_SEPOLICY_DIRS += device/htc/endeavoru/sepolicy
+BOARD_SEPOLICY_DIRS += device/htc/endeavoru/sepolicy
 
