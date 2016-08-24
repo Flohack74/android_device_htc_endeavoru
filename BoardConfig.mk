@@ -77,8 +77,11 @@ WIFI_FIRMWARE_LOADER             := ""
 COMMON_GLOBAL_CFLAGS             += -DUSES_TI_MAC80211
 
 # Kernel
-TARGET_KERNEL_SOURCE := kernel/htc/endeavoru
-TARGET_KERNEL_CONFIG := twrp_endeavoru_defconfig
+#TARGET_KERNEL_SOURCE := kernel/htc/endeavoru
+#TARGET_KERNEL_CONFIG := twrp_endeavoru_defconfig
+
+TARGET_PREBUILT_KERNEL := device/htc/endeavoru/kernel/zImage 
+
 
 # Art Tuning 
 ART_BUILD_TARGET_DEBUG := false
