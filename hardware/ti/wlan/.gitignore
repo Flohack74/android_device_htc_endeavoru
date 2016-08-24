@@ -24,7 +24,7 @@
 *.order
 *.elf
 *.gz
-*~
+
 #
 # Top-level generic files
 #

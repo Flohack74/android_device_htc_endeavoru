@@ -3,7 +3,7 @@
 # subdirectories here. Add them in the ".gitignore" file
 # in that subdirectory instead.
 #
-# NOTE! Please use 'git-ls-files -i --exclude-standard'
+# NOTE! Please use 'git ls-files -i --exclude-standard'
 # command after changing this file, to see if there are
 # any tracked files which get ignored after the change.
 #
@@ -12,36 +12,15 @@
 .*
 *.o
 *.o.*
-*.a
-*.s
-*.ko
-*.so
-*.so.dbg
-*.mod.c
-*.i
-*.lst
-*.symtypes
-*.order
-*.elf
-*.gz
+*.out
 
 #
 # Top-level generic files
 #
 tags
 TAGS
-Module.markers
-Module.symvers
 !.gitignore
-
-# MAC80211 generated files
-modules
-compat_autoconf.h
-mac80211/compat_wl12xx/net/wireless/regdb.c
-mac80211/compat_wl12xx/drivers/net/wireless/wl12xx/version.h
-mac80211/compat_wl18xx/drivers/net/wireless/ti/wlcore/version.h
-mac80211/compat_wl18xx/drivers/net/wireless/ti/wl12xx/version.h
-mac80211/compat_wl18xx/drivers/net/wireless/ti/wl18xx/version.h
+!.mailmap
 
 # stgit generated dirs
 patches-*
@@ -53,6 +32,13 @@ series
 # cscope files
 cscope.*
 ncscope.*
+target
+target/*
+# gnu global files
+GPATH
+GRTAGS
+GSYMS
+GTAGS
 
 *.orig
 *~
