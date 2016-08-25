@@ -97,15 +97,6 @@ BOARD_HAL_STATIC_LIBRARIES := libhealthd.endeavoru
 # Preload misc old symbols
 TARGET_LDPRELOAD += /system/lib/endeavoru_misc_cpp.so
 
-# Prebuilt kernel
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/htc/endeavoru/kernel/zImage
-else
-LOCAL_KERNEL :$(TARGET_PREBUILT_KERNEL)
-endif
-
-PRODUCT_COPY_FILES := \
-$(LOCAL_KERNEL):kernel
 
 # common tegra3-HOX+ configs
 $(call inherit-product, device/htc/tegra3-common/tegra3.mk)
