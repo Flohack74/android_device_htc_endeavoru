@@ -3,11 +3,14 @@ LOCAL_PATH := $(call my-dir)
 LZMA_RAMDISK_BOOT := $(PRODUCT_OUT)/ramdisk.lzma
 LZMA_RAMDISK_RECOVERY := $(PRODUCT_OUT)/ramdisk-recovery.lzma
 
-$(LZMA_RAMDISK_BOOT): $(recovery_ramdisk)
+$(LZMA_RAMDISK_BOOT): $(INSTALLED_RAMDISK_TARGET)
+	@echo -e ${CL_GRN}"----- Making LZMA boot ramdisk ------"${CL_RST}
+	$(hide) gzip -d < $(INSTALLED_RAMDISK_TARGET) > $(PRODUCT_OUT)/ramdisk.cpio
 	$(hide) xz --format=lzma --lzma1=dict=16MiB -9 < $(PRODUCT_OUT)/ramdisk.cpio > $@
 	@echo -e ${CL_CYN}"Made LZMA boot ramdisk: $@"${CL_RST}
 
-$(LZMA_RAMDISK_RECOVERY): $(recovery_ramdisk)
+$(LZMA_RAMDISK_RECOVERY): $(recovery_uncompressed_ramdisk)
+	@echo -e ${CL_GRN}"----- Making LZMA recovery ramdisk ------"${CL_RST}
 	$(hide) xz --format=lzma --lzma1=dict=16MiB -9 < $(PRODUCT_OUT)/ramdisk-recovery.cpio > $@
 	@echo -e ${CL_CYN}"Made LZMA recovery ramdisk: $@"${CL_RST}
 
