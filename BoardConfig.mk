@@ -179,7 +179,7 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 TARGET_RECOVERY_FSTAB := device/htc/endeavoru/recovery/root/fstab.unknown
 TARGET_RECOVERY_DEVICE_MODULES += chargeled
 
-BOARD_CUSTOM_BOOTIMG_MK := device/htc/endeavoru/recovery.mk
+#BOARD_CUSTOM_BOOTIMG_MK := device/htc/endeavoru/recovery.mk
 
 #TWRP CONFIG:
 
