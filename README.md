@@ -1,1 +1,1 @@
-cm-11.0 device tree for HTC One X (endeavoru)
+WIP cm-13.0 device tree for HTC One X (endeavoru)
