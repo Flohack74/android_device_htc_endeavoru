@@ -181,6 +181,8 @@ TARGET_RECOVERY_DEVICE_MODULES += chargeled
 
 #BOARD_CUSTOM_BOOTIMG_MK := device/htc/endeavoru/recovery.mk
 
+TARGET_NO_RECOVERY := true
+
 #TWRP CONFIG:
 
 TW_THEME := portrait_hdpi
