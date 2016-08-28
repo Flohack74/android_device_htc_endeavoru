@@ -14,11 +14,10 @@ $(LZMA_RAMDISK_RECOVERY): $(recovery_uncompressed_ramdisk)
 	@echo $(LZMA_COMPRESS_COMMAND) < $(PRODUCT_OUT)/ramdisk-recovery.cpio > $@
 	@echo -e ${CL_CYN}"Made LZMA recovery ramdisk: $@"${CL_RST}
 
-$(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES) $(LZMA_RAMDISK_BOOT)
-	@echo -e ${CL_GRN}"----- Making boot image ------"${CL_RST}
-	@echo $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_ARGS) $(BOARD_MKBOOTIMG_ARGS) --output $@ --ramdisk $(LZMA_RAMDISK_BOOT)
-	@echo -e ${CL_CYN}"Made boot image: $@"${CL_RST}
-	@echo $(call assert-max-image-size,$@,$(BOARD_BOOTIMAGE_PARTITION_SIZE),raw)
+$(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES)
+	$(call pretty,"Target boot image: $@")
+	$(hide) $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_ARGS) --output $@
+	$(hide) $(call assert-max-image-size,$@,$(BOARD_BOOTIMAGE_PARTITION_SIZE),raw)
 
 $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTIMG) $(LZMA_RAMDISK_RECOVERY) $(recovery_kernel)
 	@echo -e ${CL_GRN}"----- Making recovery image ------"${CL_RST}
