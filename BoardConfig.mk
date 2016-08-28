@@ -182,10 +182,7 @@ TARGET_RECOVERY_DEVICE_MODULES += chargeled
 #BOARD_CUSTOM_BOOTIMG_MK := device/htc/endeavoru/recovery.mk
 
 #TARGET_NO_RECOVERY := false 
-TW_EXCLUDE_SUPERSU := true
-TW_EXCLUDE_MTP := true
-TW_OEM_BUILD := true
-TW_USE_TOOLBOX := true
+
 
 #TWRP CONFIG:
 
