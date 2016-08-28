@@ -3,7 +3,7 @@ LZMA_BIN := /usr/bin/lzma
 
 
 $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTIMG) \
-		$(recovery_uncompressed_ramdisk) \
+		$(recover_ramdisk) \
 		$(recovery_kernel)
 	@echo ----- Compressing recovery ramdisk with lzma ------
 	rm -f $(recovery_uncompressed_ramdisk).lzma
