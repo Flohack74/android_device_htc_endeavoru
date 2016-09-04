@@ -1,0 +1,49 @@
+#============= debuggerd ==============
+allow debuggerd kernel:system module_request;
+
+#============= drmserver ==============
+allow drmserver kernel:system module_request;
+
+#============= init ==============
+allow init unlabeled:file execute;
+
+#============= installd ==============
+allow installd kernel:system module_request;
+
+#============= keystore ==============
+allow keystore kernel:system module_request;
+
+#============= lmkd ==============
+allow lmkd kernel:system module_request;
+
+#============= logd ==============
+allow logd kernel:system { module_request syslog_mod };
+allow logd property_socket:sock_file write;
+
+#============= netd ==============
+allow netd kernel:system module_request;
+
+#============= sdcardd ==============
+allow sdcardd kernel:system module_request;
+
+#============= servicemanager ==============
+allow servicemanager kernel:system module_request;
+
+#============= surfaceflinger ==============
+allow surfaceflinger debug_prop:property_service set;
+allow surfaceflinger kernel:system module_request;
+allow surfaceflinger system_file:file execmod;
+
+#============= sysinit ==============
+allow sysinit kernel:system module_request;
+allow sysinit unlabeled:file getattr;
+
+#============= uim_sysfs ==============
+allow uim_sysfs kernel:system module_request;
+
+#============= vold ==============
+allow vold kernel:system module_request;
+
+#============= zygote ==============
+allow zygote kernel:system module_request;
+
