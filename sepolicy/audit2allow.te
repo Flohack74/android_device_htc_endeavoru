@@ -5,7 +5,7 @@ allow debuggerd kernel:system module_request;
 allow drmserver kernel:system module_request;
 
 #============= init ==============
-allow init unlabeled:file execute;
+#allow init unlabeled:file execute;
 
 #============= installd ==============
 allow installd kernel:system module_request;
