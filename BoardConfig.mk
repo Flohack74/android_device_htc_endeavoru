@@ -78,9 +78,12 @@ COMMON_GLOBAL_CFLAGS             += -DUSES_TI_MAC80211
 
 # Kernel
 TARGET_KERNEL_SOURCE := kernel/htc/endeavoru
-TARGET_KERNEL_CONFIG := twrp_endeavoru_defconfig 
+TARGET_KERNEL_CONFIG := underscore_defconfig
 
-# Art Tuning 
+# Charge mode
+BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
+
+
 ART_BUILD_TARGET_DEBUG := false
 ART_USE_OPTIMIZING_COMPILER := true
 
