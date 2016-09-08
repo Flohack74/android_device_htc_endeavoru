@@ -1,6 +1,6 @@
 # Copyright 2010 The Android Open Source Project
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
+# Licensed under the Apache License, Version 2.0(the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
@@ -90,12 +90,12 @@ ART_USE_OPTIMIZING_COMPILER := true
 # TOOLCHAINS
 KERNEL_TOOLCHAIN_PREFIX:= $(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-5.3/bin/arm-linux-androideabi-
 
-
-TARGET_TOOLCHAIN_ROOT :=$(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-eabi-5.3/bin/
+TARGET_TOOLCHAIN_ROOT:= $(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-5.3/bin/arm-linux-androideabi-
 
 ARM_EABI_TOOLCHAIN :=$(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-eabi-5.3/bin/
 
 TARGET_GCC_VERSION := 5.3
+
 
 # Kitkat
 BOARD_HAVE_PRE_KITKAT_AUDIO_BLOB := true
