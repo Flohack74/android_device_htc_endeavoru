@@ -93,6 +93,8 @@ KERNEL_TOOLCHAIN_PREFIX:= $(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-l
 
 TARGET_TOOLCHAIN_ROOT :=$(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-eabi-5.3/bin/
 
+ARM_EABI_TOOLCHAIN :=$(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-eabi-5.3/bin/
+
 TARGET_GCC_VERSION := 5.3
 
 # Kitkat
