@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-import init.unknown.usb.rc
+import init.endeavoru.usb.rc
 import init.tegra3-common.rc
 
 on early-init
@@ -33,6 +33,7 @@ on init
      # Shim load misc old symbols
     export LD_SHIM_LIBS /system/lib/libril.so|libx3_ril.so:/system/lib/lge-ril.so|libx3_ril.so:/system/lib/hw/camera.tegra.so|libx3_cam.so:/system/vendor/lib/libwvm.so|libx3_cam.so
 on fs
+<<<<<<< HEAD
 	setenforce 0
     mount_all /fstab.unknown
     
@@ -45,6 +46,9 @@ on fs
     chown system system /sys/module/input_cfboost/parameters/boost_freq
     chown system system /sys/module/input_cfboost/parameters/boost_time
     chown system system /sys/devices/platform/tegra-i2c.1/i2c-1/1-0036/lm3533_bl_hvled
+=======
+    mount_all /fstab.endeavoru
+>>>>>>> parent of d57f4b9... Add PoweHal
 
 on post-fs-data
 	setenforce 0
