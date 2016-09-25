@@ -35,9 +35,8 @@ on init
 on fs
 <<<<<<< HEAD
 	setenforce 0
-    mount_all /fstab.unknown
-    
-    swapon_all /fstab.unknown 
+    mount_all ./fstab.unknown
+
     
     chown system system /sys/devices/system/cpu/cpuquiet/balanced/core_bias
     chown system system /sys/devices/system/cpu/cpuquiet/balanced/balance_level
