@@ -30,7 +30,7 @@ PRODUCT_NAME := full_endeavoru
 PRODUCT_DEVICE := endeavoru
 PRODUCT_BRAND := Android
 PRODUCT_MODEL := Full AOSP on EndeavorU
- #help GL, ril and camera work in M
+ #help ril and camera work in M
 PRODUCT_PACKAGES += \
     endeavoru_ril \
     endeavoru_misc_cpp \
