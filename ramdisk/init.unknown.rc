@@ -31,7 +31,7 @@ on init
 
 
      # Shim load misc old symbols
-  #  export LD_SHIM_LIBS /system/lib/libril.so|endeavoru_ril.so:/system/lib/lge-ril.so|libx3_ril.so:/system/lib/hw/camera.tegra.so|libx3_cam.so:/system/vendor/lib/libwvm.so|libx3_cam.so
+  #  export LD_SHIM_LIBS /system/lib/libril.so|endeavoru_ril.so:/system/lib/lge-ril.so|endeavoru_ril.so:/system/lib/hw/camera.tegra.so|endeavoru_cam.so:/system/vendor/lib/libwvm.so|endeavoru_cam.so
 on fs
 	setenforce 0
     mount_all ./fstab.unknown
@@ -94,12 +94,14 @@ service akmd /system/bin/akmd
     class main
     user compass
     group compass misc input
+    disabled
 
 # gyro daemon
 service ewtzmud /system/bin/ewtzmud
     class main
     user system
     group system misc input
+    disabled
 
 service wpa_supplicant /system/bin/wpa_supplicant \
         -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
@@ -165,12 +167,15 @@ service nav /system/bin/navl_server --android_log NAVD-p3 -nav\"-c/system/bin/pa
     group system
     cgroup bg
     oneshot
+    disabled
 
 service rxn_intapp /system/bin/RXN_IntApp /system/etc/gnss/RXN/MSLConfig.txt
     class main
     user system
     group system
     cgroup bg
+    oneshot
+    diabled
 
 service rilPos-daemon /system/bin/rilposd -l /system/lib/librilpos.so -- -c agps_v_channel
     class main
