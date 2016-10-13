@@ -62,7 +62,7 @@ on post-fs-data
 on boot
 	setenforce 0
     setprop persist.sys.usb.config mtp,adb
-    start adbd
+  #  start adbd
     # Wi-Fi
     insmod /system/lib/modules/compat.ko
     insmod /system/lib/modules/cfg80211.ko
@@ -160,6 +160,7 @@ service uim /system/xbin/strace -tt -o/data/boot.strace /system/bin/uim-sysfs
     user root
     group media bluetooth
     oneshot
+    disabled
 
 service nav /system/bin/navl_server --android_log NAVD-p3 -nav\"-c/system/bin/pathconfigfile.txt\"
     class main
