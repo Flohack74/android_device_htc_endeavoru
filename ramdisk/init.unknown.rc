@@ -31,7 +31,7 @@ on init
 
 
      # Shim load misc old symbols
-  #  export LD_SHIM_LIBS /system/lib/libril.so|endeavoru_ril.so:/system/lib/lge-ril.so|endeavoru_ril.so:/system/lib/hw/camera.tegra.so|endeavoru_cam.so:/system/vendor/lib/libwvm.so|endeavoru_cam.so
+  #  export LD_SHIM_LIBS /system/lib/libril.so|endeavoru_ril.so:/system/lib/ibhtc_ril.so|endeavoru_ril.so:/system/lib/hw/camera.tegra.so|endeavoru_cam.so:/system/vendor/lib/libwvm.so|endeavoru_cam.so
 on fs
 	setenforce 0
     mount_all ./fstab.unknown
