@@ -30,8 +30,8 @@ BOARD_KERNEL_PAGESIZE := 2048
 TARGET_USERIMAGES_USE_EXT4 := true
 
 # Skip droiddoc build to save build time
-BOARD_SKIP_ANDROID_DOC_BUILD := true
-DISABLE_DROIDDOC := true
+# BOARD_SKIP_ANDROID_DOC_BUILD := true
+# DISABLE_DROIDDOC := true
 
 #Stop some stupid logging
 COMMON_GLOBAL_CFLAGS += -DSTOP_LOG_SPAM
