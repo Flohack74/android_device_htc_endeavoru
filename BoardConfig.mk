@@ -24,7 +24,7 @@
 -include device/htc/tegra3-common/BoardConfigCommon.mk
 
 # Boot/Recovery image settings
-BOARD_KERNEL_CMDLINE := 
+BOARD_KERNEL_CMDLINE :=
 BOARD_KERNEL_PAGESIZE := 2048
 
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -118,7 +118,7 @@ COMMON_GLOBAL_CFLAGS += -DBOARD_CANT_REALLOCATE_OMX_BUFFERS
 TARGET_NEEDS_TEXT_RELOCS_SUPPORT := true
 COMMON_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
 
-#Selinux 
+#Selinux
 ifeq ($(TARGET_BUILD_VARIANT),user)
 COMMON_GLOBAL_CFLAGS += -DALLOW_LOCAL_PROP_OVERRIDE=1 -DALLOW_DISABLE_SELINUX=1 -DALLOW_ADBD_ROOT=1
 WITH_DEXPREOPT := true
@@ -162,7 +162,7 @@ WIFI_MODULES:
 	$(ARM_EABI_TOOLCHAIN)/arm-eabi-strip --strip-unneeded $(KERNEL_MODULES_OUT)/cfg80211.ko
 	$(ARM_EABI_TOOLCHAIN)/arm-eabi-strip --strip-unneeded $(KERNEL_MODULES_OUT)/wl12xx.ko
 	$(ARM_EABI_TOOLCHAIN)/arm-eabi-strip --strip-unneeded $(KERNEL_MODULES_OUT)/wl12xx_sdio.ko
-	
+
 TARGET_KERNEL_MODULES := WIFI_MODULES
 
 # Avoid the generation of ldrcc instructions
@@ -174,6 +174,9 @@ BOARD_USES_GENERIC_INVENSENSE := false
 # Bluetooth
 BOARD_HAVE_BLUETOOTH_TI := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/endeavoru/bluetooth
+
+#JEMOLLOC
+MALLOC_SVELTE := true
 
 # Charge mode
 # BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
@@ -191,7 +194,7 @@ TARGET_RECOVERY_DEVICE_MODULES += chargeled
 
 #BOARD_CUSTOM_BOOTIMG_MK := device/htc/endeavoru/recovery.mk
 
-#TARGET_NO_RECOVERY := false 
+#TARGET_NO_RECOVERY := false
 
 
 #TWRP CONFIG:
@@ -214,4 +217,3 @@ HAVE_SELINUX := true
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/htc/endeavoru
 BOARD_SEPOLICY_DIRS += device/htc/endeavoru/sepolicy
-
