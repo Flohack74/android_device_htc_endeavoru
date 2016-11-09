@@ -90,8 +90,6 @@ $(call inherit-product, vendor/htc/endeavoru/endeavoru-vendor.mk)
 # Preload misc old symbols
 TARGET_LDPRELOAD += /system/lib/endeavoru_misc_cpp.so
 
-PRODUCT_PACKAGES += libcam 
-TARGET_LDPRELOAD += libcam
 
 # common tegra3-HOX+ configs
 $(call inherit-product, device/htc/tegra3-common/tegra3.mk)
