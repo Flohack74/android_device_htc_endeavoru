@@ -25,7 +25,7 @@ LOCAL_CPPFLAGS += -Wno-error
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
-LOCAL_SRC_FILES := gui/SensorManager.cpp endeavoru_mediabuffer.cpp 
+LOCAL_SRC_FILES := gui/SensorManager.cpp endeavoru_mediabuffer.cpp endeavoru_gps.c
 
 LOCAL_SHARED_LIBRARIES := \
     libbinder libcutils libgui libhardware liblog libsync libui libutils libstagefright
