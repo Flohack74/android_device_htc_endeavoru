@@ -26,7 +26,7 @@ on init
     user system
     group system log
     disabled
-	
+
 	mkdir /cache/logs 0775 system log
 
 	start persistentLogging
@@ -38,7 +38,7 @@ on init
    #write /sys/block/zram0/comp_algorithm lzo
    #write /sys/block/zram0/max_comp_streams 4
 
-
+      export LD_PRELOAD libcam.so 
      # Shim load misc old symbols
     export LD_SHIM_LIBS /system/lib/libril.so|endeavoru_ril.so:/system/lib/ibhtc_ril.so|endeavoru_ril.so:/system/lib/hw/camera.tegra.so|endeavoru_cam.so:/system/vendor/lib/libwvm.so|endeavoru_cam.so
 on fs
