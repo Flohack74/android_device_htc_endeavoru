@@ -32,6 +32,9 @@
 #include "gui/SensorManager.h"
 #include <gui/SensorEventQueue.h>
 
+extern "C" void *_ZN7android9SingletonINS_13SensorManagerEE5sLockE;
+void *_ZN7android9SingletonINS_13SensorManagerEE5sLockE;
+
 // ----------------------------------------------------------------------------
 namespace android {
 // ----------------------------------------------------------------------------
