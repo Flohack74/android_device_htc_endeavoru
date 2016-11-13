@@ -22,14 +22,14 @@ on early-init
 
 on init
 
-    service persistentLogging /system/bin/logcat -r 1024 -n 9 -v threadTime -f /cache/logs/log
+    service devlog /system/bin/logcat -r 1024 -n 9 -v threadTime -f /cache/logs/log
     user system
     group system log
     disabled
 
 	mkdir /cache/logs 0775 system log
 
-	start persistentLogging
+	start devlog
 
 	setenforce 0
 
