@@ -62,23 +62,13 @@ void SensorManager::sensorManagerDied()
 }
 
 status_t SensorManager::assertStateLocked() const {
-    bool initSensorManager = false;
-    if (mSensorServer == NULL) {
-        initSensorManager = true;
-    } else {
-        // Ping binder to check if sensorservice is alive.
-        status_t err = IInterface::asBinder(mSensorServer)->pingBinder();
-        if (err != NO_ERROR) {
-            initSensorManager = true;
-        }
-    }
-    if (initSensorManager) {
-        // try for 300 seconds (60*5(getService() tries for 5 seconds)) before giving up ...
+    /*if (mSensorServer == NULL) {
+        // try for one second
         const String16 name("sensorservice");
-        for (int i = 0; i < 60; i++) {
+        for (int i=0 ; i<4 ; i++) {
             status_t err = getService(name, &mSensorServer);
             if (err == NAME_NOT_FOUND) {
-                sleep(1);
+                usleep(250000);
                 continue;
             }
             if (err != NO_ERROR) {
@@ -86,7 +76,6 @@ status_t SensorManager::assertStateLocked() const {
             }
             break;
         }
-
         class DeathObserver : public IBinder::DeathRecipient {
             SensorManager& mSensorManger;
             virtual void binderDied(const wp<IBinder>& who) {
@@ -96,18 +85,15 @@ status_t SensorManager::assertStateLocked() const {
         public:
             DeathObserver(SensorManager& mgr) : mSensorManger(mgr) { }
         };
-
         mDeathObserver = new DeathObserver(*const_cast<SensorManager *>(this));
         IInterface::asBinder(mSensorServer)->linkToDeath(mDeathObserver);
-
         mSensors = mSensorServer->getSensorList(gPackageName);
         size_t count = mSensors.size();
-        mSensorList =
-                static_cast<Sensor const**>(malloc(count * sizeof(Sensor*)));
+        mSensorList = (Sensor const**)malloc(count * sizeof(Sensor*));
         for (size_t i=0 ; i<count ; i++) {
             mSensorList[i] = mSensors.array() + i;
         }
-    }
+    }*/
 
     return NO_ERROR;
 }
@@ -156,7 +142,7 @@ sp<SensorEventQueue> SensorManager::createEventQueue()
     sp<SensorEventQueue> queue;
 
     Mutex::Autolock _l(mLock);
-    while (assertStateLocked() == NO_ERROR) {
+    /*while (assertStateLocked() == NO_ERROR) {
         sp<ISensorEventConnection> connection =
                 mSensorServer->createSensorEventConnection(String8(""), 0, gPackageName);
         if (connection == NULL) {
@@ -166,7 +152,7 @@ sp<SensorEventQueue> SensorManager::createEventQueue()
         }
         queue = new SensorEventQueue(connection);
         break;
-    }
+    }*/
     return queue;
 }
 
