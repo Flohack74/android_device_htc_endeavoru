@@ -87,6 +87,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
 $(call inherit-product, vendor/htc/endeavoru/endeavoru-vendor.mk)
 
+# Override healthd HAL
+BOARD_HAL_STATIC_LIBRARIES := libhealthd.endeavoru
+
 # Preload misc old symbols
 TARGET_LDPRELOAD += /system/lib/endeavoru_misc_cpp.so
 
