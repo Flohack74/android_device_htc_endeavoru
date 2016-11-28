@@ -63,6 +63,11 @@ PRODUCT_PACKAGES += \
     hciconfig \
     hcitool \
 
+#Power hal 
+PRODUCT_PACKAGES += \
+	power.tegra
+
+
 # audio packages
 PRODUCT_PACKAGES += \
     tinymix \

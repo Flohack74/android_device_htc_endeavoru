@@ -41,7 +41,7 @@ on init
    #write /sys/block/zram0/max_comp_streams 4
 
 
-    
+
 on fs
 
 	setenforce 0
@@ -55,6 +55,31 @@ on fs
     chown system system /sys/module/input_cfboost/parameters/boost_freq
     chown system system /sys/module/input_cfboost/parameters/boost_time
     chown system system /sys/devices/platform/tegra-i2c.1/i2c-1/1-0036/lm3533_bl_hvled
+
+    # Power management settings (Kernel uses performance governor at boot, so add this late)
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor interactive
+    write /sys/module/cpu_tegra/parameters/force_policy_max Y
+    write /sys/module/cpuidle/parameters/lp2_in_idle 1
+
+    # Interactive powerHAL permissions
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/go_maxspeed_load
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/cores_states
+    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/cores_states
+
+    # Allow Overclock via scaling_max_freq
+    write /sys/module/cpu_tegra/parameters/cpu_user_cap 1700000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1500000
+
+    # Interactive dynamic frequecy mode settings
+    write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
+    write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 85
+    write /sys/devices/system/cpu/cpufreq/interactive/dynamic_freq_mode 1
 
 on post-fs-data
 	setenforce 0
@@ -231,30 +256,7 @@ on property:init.svc.bootanim=stopped
     # KSM off by default
     write /sys/kernel/mm/ksm/run 0
 
-    # Power management settings (Kernel uses performance governor at boot, so add this late)
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor interactive
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor interactive
-    write /sys/module/cpu_tegra/parameters/force_policy_max Y
-    write /sys/module/cpuidle/parameters/lp2_in_idle 1
 
-    # Interactive powerHAL permissions
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/go_maxspeed_load
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
-    chown system system /sys/devices/system/cpu/cpufreq/interactive/cores_states
-    chmod 0644 /sys/devices/system/cpu/cpufreq/interactive/cores_states
-
-    # Allow Overclock via scaling_max_freq
-    write /sys/module/cpu_tegra/parameters/cpu_user_cap 1700000
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1500000
-
-    # Interactive dynamic frequecy mode settings
-    write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
-    write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 85
-    write /sys/devices/system/cpu/cpufreq/interactive/dynamic_freq_mode 1
 
 on property:dev.bootcomplete=1
     # Net: Disable the IPv6 rmnet interfaces
