@@ -24,7 +24,7 @@
 -include device/htc/tegra3-common/BoardConfigCommon.mk
 
 # Boot/Recovery image settings
-BOARD_KERNEL_CMDLINE := 
+BOARD_KERNEL_CMDLINE :=
 BOARD_KERNEL_PAGESIZE := 2048
 
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -118,7 +118,7 @@ COMMON_GLOBAL_CFLAGS += -DBOARD_CANT_REALLOCATE_OMX_BUFFERS
 TARGET_NEEDS_TEXT_RELOCS_SUPPORT := true
 COMMON_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
 
-#Selinux 
+#Selinux
 ifeq ($(TARGET_BUILD_VARIANT),user)
 COMMON_GLOBAL_CFLAGS += -DALLOW_LOCAL_PROP_OVERRIDE=1 -DALLOW_DISABLE_SELINUX=1 -DALLOW_ADBD_ROOT=1
 WITH_DEXPREOPT := true
@@ -162,7 +162,7 @@ WIFI_MODULES:
 	$(ARM_EABI_TOOLCHAIN)/arm-eabi-strip --strip-unneeded $(KERNEL_MODULES_OUT)/cfg80211.ko
 	$(ARM_EABI_TOOLCHAIN)/arm-eabi-strip --strip-unneeded $(KERNEL_MODULES_OUT)/wl12xx.ko
 	$(ARM_EABI_TOOLCHAIN)/arm-eabi-strip --strip-unneeded $(KERNEL_MODULES_OUT)/wl12xx_sdio.ko
-	
+
 TARGET_KERNEL_MODULES := WIFI_MODULES
 
 # Avoid the generation of ldrcc instructions
@@ -191,7 +191,7 @@ TARGET_RECOVERY_DEVICE_MODULES += chargeled
 
 #BOARD_CUSTOM_BOOTIMG_MK := device/htc/endeavoru/recovery.mk
 
-#TARGET_NO_RECOVERY := false 
+#TARGET_NO_RECOVERY := false
 
 
 #TWRP CONFIG:
@@ -211,7 +211,16 @@ RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TWHAVE_SELINUX := true
 HAVE_SELINUX := true
 
+#Camera
+# set to true by vendor
+USE_CAMERA_STUB := false
+# external/skia: Old SkImageDecoder::DecodeFile symbol.
+# Needed for camera.vendor.tegra.so and its dependencies.
+COMMON_GLOBAL_CFLAGS += -DSK_SUPPORT_LEGACY_DECODEFILE
+COMMON_GLOBAL_CFLAGS += -DSK_SUPPORT_LEGACY_SETCONFIG
+# fix camera '_ZN8SkBitmap9setConfigENS_6ConfigEiii' FC error
+USE_DEVICE_SPECIFIC_CAMERA := true
+
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/htc/endeavoru
 BOARD_SEPOLICY_DIRS += device/htc/endeavoru/sepolicy
-
