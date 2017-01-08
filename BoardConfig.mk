@@ -136,7 +136,7 @@ endif
 # Flags
 COMMON_GLOBAL_CFLAGS += -DMR0_AUDIO_BLOB -DMR0_CAMERA_BLOB -DNEEDS_VECTORIMPL_SYMBOLS
 
-
+MALLOC_SVELTE := true
 
 # Enable Minikin text layout engine (will be the default soon)
 USE_MINIKIN := true
