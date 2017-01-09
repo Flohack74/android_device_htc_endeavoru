@@ -28,7 +28,7 @@ PRODUCT_PACKAGES += \
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := endeavoru
-PRODUCT_NAME := cm_endeavoru
+PRODUCT_NAME := lineage_endeavoru
 PRODUCT_BRAND := htc
 PRODUCT_MODEL := One X
 PRODUCT_MANUFACTURER := HTC
