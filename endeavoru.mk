@@ -65,8 +65,8 @@ PRODUCT_PACKAGES += \
 
 #Power hal 
 PRODUCT_PACKAGES += \
-	power.tegra
-
+	power.tegra \
+	libhealthd.endeavoru
 
 # audio packages
 PRODUCT_PACKAGES += \
