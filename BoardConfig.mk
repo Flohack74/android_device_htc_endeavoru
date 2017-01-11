@@ -85,7 +85,7 @@ TARGET_KERNEL_SOURCE := kernel/htc/endeavoru
 TARGET_KERNEL_CONFIG := twrp_endeavoru_defconfig
 
 # Charge mode
-#BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
+BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
 
 
 ART_BUILD_TARGET_DEBUG := false
@@ -220,6 +220,7 @@ BOARD_GLOBAL_CPPFLAGS += -DSK_SUPPORT_LEGACY_DECODEFILE
 BOARD_GLOBAL_CPPFLAGS += -DSK_SUPPORT_LEGACY_SETCONFIG
 # fix camera '_ZN8SkBitmap9setConfigENS_6ConfigEiii' FC error
 USE_DEVICE_SPECIFIC_CAMERA := true
+TARGET_HAS_LEGACY_CAMERA_HAL1 := true
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/htc/endeavoru

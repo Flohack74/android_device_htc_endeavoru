@@ -1,3 +1,4 @@
+media.stagefright.legacyencoder=true media.stagefright.less-secure=true
 ro.ril.ecc.VODA-Africa-South=112,911,999
 ro.ril.ecc.HTC-GCC=999,112,997
 ro.ril.ecc.HTC-WWE=999
