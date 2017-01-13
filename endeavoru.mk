@@ -89,7 +89,7 @@ PRODUCT_PACKAGES += \
     regulatory.bin \
     wlconf
 PRODUCT_PROPERTY_OVERRIDES += \
-    wifi.interface=wlan0 \
+    wifi.interface=wlan0 
 $(call inherit-product, vendor/htc/endeavoru/endeavoru-vendor.mk)
 
 # Override healthd HAL
