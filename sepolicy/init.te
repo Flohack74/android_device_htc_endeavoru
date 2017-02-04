@@ -22,8 +22,8 @@ allow init block_device:lnk_file setattr;
 allow init { domain -lmkd }:process noatsecure;
 
 # allow setting proc_dirt_ratio fron init.rc scripts
-allow init proc_dirty_ratio:file rw_file_perms;
+#allow init proc_dirty_ratio:file rw_file_perms;
 
-allow init radio_device:blk_file rw_file_perms;
+#allow init radio_device:blk_file rw_file_perms;
 
 set_prop(init, net_radio_prop)
