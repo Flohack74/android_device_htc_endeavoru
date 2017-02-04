@@ -30,8 +30,8 @@ BOARD_KERNEL_PAGESIZE := 2048
 TARGET_USERIMAGES_USE_EXT4 := true
 
 # Skip droiddoc build to save build time
-# BOARD_SKIP_ANDROID_DOC_BUILD := true
-# DISABLE_DROIDDOC := true
+BOARD_SKIP_ANDROID_DOC_BUILD := true
+DISABLE_DROIDDOC := true
 
 #Stop some stupid logging
 BOARD_GLOBAL_CPPFLAGS += -DSTOP_LOG_SPAM
@@ -95,7 +95,7 @@ ART_USE_OPTIMIZING_COMPILER := true
 # TOOLCHAINS
 #KERNEL_TOOLCHAIN_PREFIX:= $(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
 
-ARM_EABI_TOOLCHAIN :=$(ANDROID_BUILD_TOP)prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin
+ARM_EABI_TOOLCHAIN :=$(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin
 
 
 # Kitkat
