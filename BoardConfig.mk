@@ -224,4 +224,4 @@ TARGET_HAS_LEGACY_CAMERA_HAL1 := true
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/htc/endeavoru
-BOARD_SEPOLICY_DIRS += device/htc/endeavoru/sepolicy
+#BOARD_SEPOLICY_DIRS += device/htc/endeavoru/sepolicy
