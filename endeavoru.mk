@@ -37,12 +37,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 # Init files
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ramdisk/fstab.unknown:root/fstab.unknown \
-    $(LOCAL_PATH)/ramdisk/init.unknown.rc:root/init.unknown.rc \
-    $(LOCAL_PATH)/ramdisk/init.unknown.usb.rc:root/init.unknown.usb.rc \
-    $(LOCAL_PATH)/ramdisk/ueventd.unknown.rc:root/ueventd.unknown.rc
-
+PRODUCT_PACKAGES += \
+		fstab.unknown \
+		init.unknown.rc \
+		init.unknown.usb.rc \
+		init.recovery.unknown.rc \
+		ueventd.unknown.rc \
+		init.tegra3-common.rc
 # configs
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf
