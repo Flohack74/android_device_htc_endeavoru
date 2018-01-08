@@ -20,7 +20,7 @@ DEVICE_PACKAGE_OVERLAYS += device/htc/endeavoru/overlay
 
 # Set default USB interface
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp
+    persist.sys.usb.config=mtp,adb
 
 # Old RIL features
 PRODUCT_PROPERTY_OVERRIDES += \
